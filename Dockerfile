@@ -11,6 +11,7 @@ ENV PYTHONUNBUFFERED 1
 
 # copie des fichiers de la machine locale dans l'image docker
 COPY ./requirements.txt /tmp/requirements.txt
+COPY ./requirements.dev.txt /tmp/requirements.dev.txt
 COPY ./app /app
 
 # Definition du work directory dans l'image docker
@@ -18,6 +19,9 @@ WORKDIR /app
 
 # permettre l'accès au port sur laquelle tourne l'application
 EXPOSE 8000
+
+# environnement prod par défaut
+ARG DEV=false
 
 # Initialisation du projet 
 # - création de l'environnement virtuel 
@@ -27,6 +31,11 @@ RUN python -m venv /py && \
   /py/bin/pip install --upgrade pip && \
   # installation des dépendances déclarés dans /tmp/requirements.txt
   /py/bin/pip install -r /tmp/requirements.txt && \
+  # si environnement de dev : 
+  # installation des dépendances déclarés dans /tmp/requirements.dev.txt
+  if [ $DEV = "true" ]; \
+    then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
+  fi && \ 
   # suppression des fichiers temporaires
   # (allegement de l'image au maximum)
   rm -rf /tmp && \
@@ -38,7 +47,7 @@ RUN python -m venv /py && \
     django-user
 
 # Mise a jour de la variable PATH
-ENV PATH="/py/bin:PATH"
+ENV PATH="/py/bin:$PATH"
 
 # /!\ ne jamais utiliser le root user /!\
 # definition du user sur le container
