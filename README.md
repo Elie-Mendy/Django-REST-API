@@ -2,5 +2,5 @@
 Recipe API project.
 
 # superuser
-login  : admin
-passwd : e
+login  : admin@example.com
+passwd : test123
