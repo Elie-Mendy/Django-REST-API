@@ -9,6 +9,7 @@ from core.models import (
     Tag,
 )
 
+
 class TagSerializer(serializers.ModelSerializer):
     """Serializer for tags."""
 
@@ -16,6 +17,7 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = ['id', 'name']
         read_only_fields = ['id']
+
 
 class RecipeSerializer(serializers.ModelSerializer):
     """Serializer for recipes."""
@@ -46,5 +48,3 @@ class RecipeDetailSerializer(serializers.ModelSerializer):
             recipe.tags.add(tag_obj)
 
         return recipe
-
-
