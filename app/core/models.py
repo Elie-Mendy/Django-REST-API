@@ -23,7 +23,6 @@ class UserManager(BaseUserManager):
 
         return user
 
-    # TODO? : normaliser l'email
     def create_superuser(self, email, password):
         """Create, save, and return a new superuser."""
         # if not email:
